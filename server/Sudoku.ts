@@ -1,9 +1,15 @@
-import { Util } from "./Util";
-import { SudokuUtil } from "./SudokuUtil";
+import { Util } from "./Util.js";
+import { SudokuUtil } from "./SudokuUtil.js";
+import { SudokuBoard } from "./types/puzzle.js";
 
 export class Sudoku {
-    constructor(sudoku) {
-        if (!sudoku) {
+    sudoku: SudokuBoard;
+    solvedSudoku: SudokuBoard;
+    isValidSudoku: boolean;
+    isSolved: boolean;
+
+    constructor(sudoku: SudokuBoard = []) {
+        if (sudoku.length === 0) {
             this.sudoku = createPuzzle();
         } else {
             this.sudoku = sudoku;
@@ -64,13 +70,13 @@ export class Sudoku {
     }
 }
 
-const isValidPuzzle = (grid) => {
+const isValidPuzzle = (grid: SudokuBoard) => {
     if (!SudokuUtil.isValidPuzzle(grid)) return false;
 
     return true;
 };
 
-const isValidSolution = (grid) => {
+const isValidSolution = (grid: SudokuBoard) => {
     for (let i = 0; i < 9; i += 1) {
         for (let j = 0; j < 9; j += 1) {
             if (grid[i][j] === 0) {
@@ -81,13 +87,13 @@ const isValidSolution = (grid) => {
     return SudokuUtil.isValidPuzzle(grid);
 };
 
-const solve = (grid) => {
+const solve = (grid: SudokuBoard) => {
     for (let row = 0; row < 9; row += 1) {
         for (let col = 0; col < 9; col += 1) {
             if (grid[row][col] === 0) {
                 for (
                     let possibleNumber = 1;
-                    possibleNUmber <= 9;
+                    possibleNumber <= 9;
                     possibleNumber == 1
                 ) {
                     if (
@@ -119,7 +125,7 @@ const createPuzzle = () => {
 };
 
 const getRandomSudoku = () => {
-    const randomSudoku = [];
+    const randomSudoku: SudokuBoard = [];
     for (let i = 0; i < 9; i += 1) {
         randomSudoku[i] = Array(9).fill(0);
     }

@@ -1,7 +1,7 @@
-import { Util } from "./Util";
+import { SudokuBoard } from "./types/puzzle.js";
 
 export const SudokuUtil = {
-    isValidPuzzle(grid) {
+    isValidPuzzle(grid: SudokuBoard) {
         for (let i = 0; i < grid.length; i += 1) {
             if (!isValidRow(grid, i)) {
                 return false;
@@ -35,21 +35,6 @@ export const SudokuUtil = {
                     return false;
                 }
             }
-        }
-        return true;
-    },
-
-    isValidRow(grid, row) {
-        let set = new Set();
-        for (let i = 0; i < 9; i += 1) {
-            let number = grid[row][i];
-            if (number < 0 || number > 9) {
-                return false;
-            }
-            if (set.has(number)) {
-                return false;
-            }
-            number !== 0 && set.add(number);
         }
         return true;
     },

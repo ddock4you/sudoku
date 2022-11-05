@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
-import { Sudoku } from "./Sudoku";
-import { Util } from "./Util";
+import { Sudoku } from "./Sudoku.js";
+import { Util } from "./Util.js";
+import { SudokuBoard } from "./types/puzzle.js";
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.get("/puzzle", (req, res) => {
 });
 
 app.get("/solve", (req, res) => {
-    let puzzle = [];
+    let puzzle: SudokuBoard = [];
     Util.copyGrid(req.body.board, puzzle);
     let sudoku = new Sudoku(puzzle);
     let solution = sudoku.isSolvable();
@@ -38,7 +39,7 @@ app.get("/solve", (req, res) => {
 });
 
 app.get("/validate", (req, res) => {
-    let puzzle = [];
+    let puzzle: SudokuBoard = [];
     Util.copyGrid(req.body.board, puzzle);
     let sudoku = new Sudoku(puzzle);
     let status = sudoku.validate();
