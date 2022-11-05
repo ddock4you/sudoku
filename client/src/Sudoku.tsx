@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Board from "./ui/Board";
 import Interface from "./ui/Interface";
 import { REST } from "./services/api";
+
+const copy2DArray = (from, to) => {
+    for (let i = 0; i < from.length; i += 1) {
+        to[i] = [...from[i]];
+    }
+};
 
 const getGrid = () => {
     let grid = [];
@@ -14,6 +20,7 @@ const getGrid = () => {
 const Sudoku = () => {
     const [grid, setGrid] = useState(getGrid);
     const [puzzleStatus, setPuzzleStatus] = useState("");
+    const initialGrid = useRef(getGrid());
 
     const handleCreate = async () => {
         try {
@@ -57,6 +64,7 @@ const Sudoku = () => {
             case "create":
                 newGrid = await handleCreate();
                 setPuzzleStatus("");
+                copy2DArray(newGrid, initialGrid.current);
                 setGrid(newGrid);
                 break;
             case "solve":
@@ -68,15 +76,43 @@ const Sudoku = () => {
                 const puzzStats = status ? ` SOLVED ` : ` UNSOLVABLE `;
                 setPuzzleStatus(puzzStats);
                 break;
+            case "clear":
+                newGrid = getGrid();
+                copy2DArray(newGrid, initialGrid.current);
+                setGrid(newGrid);
+
+                setPuzzleStatus("");
+                break;
             default:
                 throw Error("INVALID ACTION");
         }
     };
 
+    const handleChange = (row, col, e) => {
+        const re = /^[0-9\b]+$/;
+        if (e.target.value === "" || re.test(e.target.value)) {
+            if (
+                Number(e.target.value) < 10 &&
+                initialGrid.current[row][col] === 0
+            ) {
+                const newGrid = [...grid];
+                newGrid[row][col] = Number(e.target.value);
+                setGrid(newGrid);
+            }
+        }
+    };
+
     return (
         <div className="Sudoku">
-            <Board />
-            <Interface handleInterface={handleInterface} status={puzzleStatus} />
+            <Board
+                puzzle={initialGrid.current}
+                grid={grid}
+                handleChange={handleChange}
+            />
+            <Interface
+                handleInterface={handleInterface}
+                status={puzzleStatus}
+            />
         </div>
     );
 };
