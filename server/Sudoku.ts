@@ -94,7 +94,7 @@ const solve = (grid: SudokuBoard) => {
                 for (
                     let possibleNumber = 1;
                     possibleNumber <= 9;
-                    possibleNumber == 1
+                    possibleNumber += 1
                 ) {
                     if (
                         SudokuUtil.isValidPlace(grid, row, col, possibleNumber)
@@ -109,19 +109,6 @@ const solve = (grid: SudokuBoard) => {
         }
     }
     return true;
-};
-
-const createPuzzle = () => {
-    let puzzle = getRandomSudoku();
-    let solution = solve(puzzle);
-    if (solution) {
-        for (let i = 0; i < 9; i += 1) {
-            for (let j = 0; j < 9; j += 1) {
-                if (Math.random() > 0.3) puzzle[i][j] = 0;
-            }
-        }
-    }
-    return puzzle;
 };
 
 const getRandomSudoku = () => {
@@ -139,4 +126,17 @@ const getRandomSudoku = () => {
         }
     }
     return randomSudoku;
+};
+
+const createPuzzle = () => {
+    let puzzle = getRandomSudoku();
+    let solution = solve(puzzle);
+    if (solution) {
+        for (let i = 0; i < 9; i += 1) {
+            for (let j = 0; j < 9; j += 1) {
+                if (Math.random() > 0.3) puzzle[i][j] = 0;
+            }
+        }
+    }
+    return puzzle;
 };
