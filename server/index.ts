@@ -46,3 +46,5 @@ app.get("/validate", (req, res) => {
 
     res.status(200).send({ status });
 });
+
+// tsc-watch --onSuccess 사용 고려

@@ -3,20 +3,25 @@ import { SudokuBoard } from "./types/puzzle.js";
 export const SudokuUtil = {
     isValidPuzzle(grid: SudokuBoard) {
         for (let i = 0; i < grid.length; i += 1) {
-            if (!isValidRow(grid, i)) {
+            if (!this.isValidRow(grid, i)) {
                 return false;
             }
-            if (!isValidCol(grid, i)) {
+            if (!this.isValidCol(grid, i)) {
                 return false;
             }
         }
-        if (!isValidBox(grid)) {
+        if (!this.isValidBox(grid)) {
             return false;
         }
         return true;
     },
 
-    isValidPlace(grid, row, column, number) {
+    isValidPlace(
+        grid: SudokuBoard,
+        row: number,
+        column: number,
+        number: number
+    ) {
         for (let i = 0; i < 9; i += 1) {
             if (grid[i][column] === number) {
                 return false;
@@ -39,7 +44,7 @@ export const SudokuUtil = {
         return true;
     },
 
-    isValidCol(grid, col) {
+    isValidCol(grid: SudokuBoard, col: number) {
         let set = new Set();
         for (let i = 0; i < 9; i += 1) {
             let number = grid[i][col];
@@ -54,7 +59,22 @@ export const SudokuUtil = {
         return true;
     },
 
-    isValidBox(grid) {
+    isValidRow(grid: SudokuBoard, row: number) {
+        let set = new Set();
+        for (let i = 0; i < 9; i += 1) {
+            let number = grid[row][i];
+            if (number < 0 || number > 9) {
+                return false;
+            }
+            if (set.has(number)) {
+                return false;
+            }
+            number !== 0 && set.add(number);
+        }
+        return true;
+    },
+
+    isValidBox(grid: SudokuBoard) {
         for (let row = 0; row < grid.length; row += 3) {
             for (let column = 0; column < grid.length; column += 3) {
                 let set = new Set();
