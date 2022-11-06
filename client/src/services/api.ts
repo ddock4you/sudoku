@@ -1,13 +1,15 @@
+import { SudokuBoard } from "../types/puzzle";
+
 export const REST = {
     getBoard() {
-        return fetch(`http://localhost:5000/puzzle`);
+        return fetch(`http://localhost:5001/puzzle`);
     },
 
-    solveBoard(grid) {
+    solveBoard(grid: SudokuBoard) {
         const data = {
             board: grid,
         };
-        return fetch(`http://localhost:5000/solve`, {
+        return fetch(`http://localhost:5001/solve`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -16,11 +18,11 @@ export const REST = {
         });
     },
 
-    validateBoard(grid) {
+    validateBoard(grid: SudokuBoard) {
         const data = {
             board: grid,
         };
-        return fetch(`http://localhost:5000/validate`, {
+        return fetch(`http://localhost:5001/validate`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

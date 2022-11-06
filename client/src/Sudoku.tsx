@@ -1,16 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, ChangeEvent } from "react";
 import Board from "./ui/Board";
 import Interface from "./ui/Interface";
 import { REST } from "./services/api";
+import { SudokuBoard } from "./types/puzzle";
 
-const copy2DArray = (from, to) => {
+const copy2DArray = (from: SudokuBoard, to: SudokuBoard) => {
     for (let i = 0; i < from.length; i += 1) {
         to[i] = [...from[i]];
     }
 };
 
 const getGrid = () => {
-    let grid = [];
+    let grid: SudokuBoard = [];
     for (let i = 0; i < 9; i += 1) {
         grid.push(Array(9).fill(0));
     }
@@ -47,11 +48,11 @@ const Sudoku = () => {
             const response = await REST.solveBoard(grid);
             const data = await response.json();
             if (data.status) {
-                return data.solution;
                 setPuzzleStatus(` SOLVED `);
+                return data.solution;
             } else {
-                return grid;
                 setPuzzleStatus(` UNSOLVABLE `);
+                return grid;
             }
         } catch (error) {
             console.log(error);
@@ -88,15 +89,17 @@ const Sudoku = () => {
         }
     };
 
-    const handleChange = (row, col, e) => {
+    const handleChange = (
+        row: number,
+        col: number,
+        e: ChangeEvent<HTMLInputElement>
+    ) => {
         const re = /^[0-9\b]+$/;
-        if (e.target.value === "" || re.test(e.target.value)) {
-            if (
-                Number(e.target.value) < 10 &&
-                initialGrid.current[row][col] === 0
-            ) {
+        const value = e.target.value;
+        if (value === "" || re.test(value)) {
+            if (Number(value) < 10 && initialGrid.current[row][col] === 0) {
                 const newGrid = [...grid];
-                newGrid[row][col] = Number(e.target.value);
+                newGrid[row][col] = Number(value);
                 setGrid(newGrid);
             }
         }

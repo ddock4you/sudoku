@@ -9,13 +9,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.listen(5000, () => {
-    console.log("Server running at port 5000");
+app.listen(5001, () => {
+    console.log("Server running at port 5001");
 });
 
 app.get("/puzzle", (req, res) => {
+    console.log("puzzle");
     let sudoku = new Sudoku();
+    console.log(sudoku);
     let puzzle = sudoku.puzzle;
+    console.log(puzzle);
     res.status(200).send({ game: puzzle });
 });
 
