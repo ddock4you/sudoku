@@ -36,6 +36,7 @@ const Sudoku = () => {
     const handleValidate = async () => {
         try {
             const response = await REST.validateBoard(grid);
+            console.log(response);
             const data = await response.json();
             return data.status;
         } catch (error) {

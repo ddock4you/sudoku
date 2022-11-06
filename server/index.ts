@@ -22,7 +22,7 @@ app.get("/puzzle", (req, res) => {
     res.status(200).send({ game: puzzle });
 });
 
-app.get("/solve", (req, res) => {
+app.post("/solve", (req, res) => {
     let puzzle: SudokuBoard = [];
     Util.copyGrid(req.body.board, puzzle);
     let sudoku = new Sudoku(puzzle);
@@ -41,7 +41,7 @@ app.get("/solve", (req, res) => {
     res.status(200).send({ solution: solvedSudoku, status });
 });
 
-app.get("/validate", (req, res) => {
+app.post("/validate", (req, res) => {
     let puzzle: SudokuBoard = [];
     Util.copyGrid(req.body.board, puzzle);
     let sudoku = new Sudoku(puzzle);
