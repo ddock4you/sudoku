@@ -23,9 +23,9 @@ const Sudoku = () => {
     const [puzzleStatus, setPuzzleStatus] = useState("");
     const initialGrid = useRef(getGrid());
 
-    const handleCreate = async () => {
+    const handleCreate = async (level: string = "normal") => {
         try {
-            const response = await REST.getBoard();
+            const response = await REST.getBoard(level);
             const data = await response.json();
             return data.game;
         } catch (error) {
@@ -64,7 +64,11 @@ const Sudoku = () => {
         let newGrid;
         switch (action) {
             case "create":
-                newGrid = await handleCreate();
+                const levelElement = document.querySelector(
+                    ".select-level"
+                ) as HTMLSelectElement;
+                const level = levelElement.value;
+                newGrid = await handleCreate(level);
                 setPuzzleStatus("");
                 copy2DArray(newGrid, initialGrid.current);
                 setGrid(newGrid);

@@ -8,9 +8,9 @@ export class Sudoku {
     isValidSudoku: boolean;
     isSolved: boolean;
 
-    constructor(sudoku: SudokuBoard = []) {
+    constructor(sudoku: SudokuBoard = [], level: string | null = null) {
         if (sudoku.length === 0) {
-            this.sudoku = createPuzzle();
+            this.sudoku = createPuzzle(level);
         } else {
             this.sudoku = sudoku;
         }
@@ -128,13 +128,26 @@ const getRandomSudoku = () => {
     return randomSudoku;
 };
 
-const createPuzzle = () => {
+const levelSelect = (level: string | null = "normal") => {
+    const table: {
+        [key: string]: number;
+    } = {
+        easy: 0.6,
+        normal: 0.4,
+        hard: 0.2,
+    };
+    if (!level) return table["normal"];
+    return table[level];
+};
+
+const createPuzzle = (level: string | null) => {
     let puzzle = getRandomSudoku();
     let solution = solve(puzzle);
+    const levelNumber = levelSelect(level);
     if (solution) {
         for (let i = 0; i < 9; i += 1) {
             for (let j = 0; j < 9; j += 1) {
-                if (Math.random() > 0.3) puzzle[i][j] = 0;
+                if (Math.random() > levelNumber) puzzle[i][j] = 0;
             }
         }
     }

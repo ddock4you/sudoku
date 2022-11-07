@@ -12,29 +12,34 @@ const Interface = ({ handleInterface, status }: InterfaceProp) => {
                 <input type="text" value={status} readOnly />
             </div>
             <div className="action-interface">
+                <select className="select-level">
+                    <option value="easy">쉬움</option>
+                    <option value="normal">보통</option>
+                    <option value="hard">어려움</option>
+                </select>
                 <button
                     className="generate-btn btn"
                     onClick={() => handleInterface("create")}
                 >
-                    Create
+                    문제생성
                 </button>
                 <button
                     className="generate-btn btn"
                     onClick={() => handleInterface("validate")}
                 >
-                    Validate
+                    문제제출
                 </button>
                 <button
                     className="generate-btn btn"
                     onClick={() => handleInterface("solve")}
                 >
-                    Solve
+                    답안확인
                 </button>
                 <button
                     className="generate-btn btn"
                     onClick={() => handleInterface("clear")}
                 >
-                    Clear
+                    초기화
                 </button>
             </div>
         </div>

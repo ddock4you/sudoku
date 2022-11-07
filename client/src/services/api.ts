@@ -1,8 +1,9 @@
 import { SudokuBoard } from "../types/puzzle";
 
 export const REST = {
-    getBoard() {
-        return fetch(`http://localhost:5001/puzzle`);
+    getBoard(level = "normal") {
+        console.log({ level });
+        return fetch(`http://localhost:5001/puzzle/${level}`);
     },
 
     solveBoard(grid: SudokuBoard) {

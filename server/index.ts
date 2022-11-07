@@ -13,12 +13,10 @@ app.listen(5001, () => {
     console.log("Server running at port 5001");
 });
 
-app.get("/puzzle", (req, res) => {
-    console.log("puzzle");
-    let sudoku = new Sudoku();
-    console.log(sudoku);
+app.get("/puzzle/:level", (req, res) => {
+    const level = req.params.level;
+    let sudoku = new Sudoku([], level);
     let puzzle = sudoku.puzzle;
-    console.log(puzzle);
     res.status(200).send({ game: puzzle });
 });
 
