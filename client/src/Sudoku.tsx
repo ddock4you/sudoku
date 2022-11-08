@@ -3,6 +3,7 @@ import Board from "./ui/Board";
 import Interface from "./ui/Interface";
 import { REST } from "./services/api";
 import { SudokuBoard } from "./types/puzzle";
+import styled from "styled-components";
 
 const copy2DArray = (from: SudokuBoard, to: SudokuBoard) => {
     for (let i = 0; i < from.length; i += 1) {
@@ -17,6 +18,18 @@ const getGrid = () => {
     }
     return grid;
 };
+
+const SudokuArea = styled.div`
+    & {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        background-color: var(--color2);
+        padding: 50px;
+        height: 100vh;
+    }
+`;
 
 const Sudoku = () => {
     const [grid, setGrid] = useState(getGrid);
@@ -111,7 +124,7 @@ const Sudoku = () => {
     };
 
     return (
-        <div className="Sudoku">
+        <SudokuArea>
             <Board
                 puzzle={initialGrid.current}
                 grid={grid}
@@ -121,7 +134,7 @@ const Sudoku = () => {
                 handleInterface={handleInterface}
                 status={puzzleStatus}
             />
-        </div>
+        </SudokuArea>
     );
 };
 
